@@ -26,6 +26,7 @@ async function run() {
   try {
     const database = client.db('volunteerDB');
     const volunteerCollection = database.collection('volunteerCollection');
+    const AppliedCollection = database.collection('AppliedCollection');
 
     app.get('/volunteers-upcoming', async (req, res) => {
       const result = await volunteerCollection.find().limit(6).toArray();
@@ -43,6 +44,31 @@ async function run() {
     app.post('/volunteers', async (req, res) => {
       const doc = req.body;
       const result = await volunteerCollection.insertOne(doc);
+      res.send(result);
+    });
+
+    app.post('/applied-as-a-volunteer', async (req, res) => {
+      const applicationData = req.body;
+
+      const query = {
+        applicant_email: applicationData.applicant_email,
+        postId: applicationData.postId,
+      };
+      const alreadyApply = await AppliedCollection.findOne(query);
+      if (alreadyApply) {
+        return res
+          .status(400)
+          .send('You have already applied on this opportunity.');
+      }
+      const result = await AppliedCollection.insertOne(applicationData);
+      const updatedDoc = {
+        $inc: { volunteers_needed: -1 },
+      };
+      const cursor = { _id: new ObjectId(applicationData.postId) };
+      const updateVolunteersNeeded = await volunteerCollection.updateOne(
+        cursor,
+        updatedDoc
+      );
       res.send(result);
     });
 
