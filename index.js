@@ -41,6 +41,13 @@ async function run() {
       res.send(result);
     });
 
+    app.get('/my-volunteer-posts/:email', async (req, res) => {
+      const userEmail = req.params.email;
+      const cursor = { organizer_email: userEmail };
+      const result = await volunteerCollection.find(cursor).toArray();
+      res.send(result);
+    });
+
     app.post('/volunteers', async (req, res) => {
       const doc = req.body;
       const result = await volunteerCollection.insertOne(doc);
