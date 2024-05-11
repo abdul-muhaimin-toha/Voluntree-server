@@ -86,6 +86,35 @@ async function run() {
       res.send(result);
     });
 
+    app.put('/volunteers/:id', async (req, res) => {
+      const id = req.params.id;
+      const updatedInfo = req.body;
+
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+
+      const updateDoc = {
+        $set: {
+          title: updatedInfo.title,
+          category: updatedInfo.category,
+          description: updatedInfo.description,
+          location: updatedInfo.location,
+          volunteers_needed: updatedInfo.volunteers_needed,
+          deadline: updatedInfo.deadline,
+          thumbnail_URL: updatedInfo.thumbnail_URL,
+          organizer_name: updatedInfo.organizer_name,
+          organizer_email: updatedInfo.organizer_email,
+        },
+      };
+
+      const result = await volunteerCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+
     console.log(
       'Pinged your deployment. You successfully connected to MongoDB!'
     );
