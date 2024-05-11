@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,6 +20,21 @@ const cookieOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
+
+const verifyToken = (req, res, next) => {
+  const token = req?.cookies?.token;
+  if (!token) {
+    return res.status(401).send({ message: 'Unauthorized access' });
+  }
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ message: 'Unauthorized access' });
+    }
+    res.user = decoded;
+    next();
+  });
+};
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.5chsr9x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
@@ -50,7 +66,7 @@ async function run() {
       res.cookie('token', token, cookieOptions).send({ success: true });
     });
 
-    app.post('/signOut', async (req, res) => {
+    app.post('/logout', async (req, res) => {
       res
         .clearCookie('token', { ...cookieOptions, maxAge: 0 })
         .send({ success: true });
@@ -69,7 +85,6 @@ async function run() {
 
     app.get('/volunteers/:id', async (req, res) => {
       const id = req.params.id;
-
       const cursor = { _id: new ObjectId(id) };
       const result = await volunteerCollection.findOne(cursor);
       res.send(result);
