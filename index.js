@@ -48,6 +48,13 @@ async function run() {
       res.send(result);
     });
 
+    app.get('/my-applied-posts/:email', async (req, res) => {
+      const userEmail = req.params.email;
+      const cursor = { applicant_email: userEmail };
+      const result = await AppliedCollection.find(cursor).toArray();
+      res.send(result);
+    });
+
     app.post('/volunteers', async (req, res) => {
       const doc = req.body;
       const result = await volunteerCollection.insertOne(doc);
