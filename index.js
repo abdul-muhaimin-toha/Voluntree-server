@@ -1,11 +1,23 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
+const corsOptions = {
+  origin: ['http://localhost:5173'],
+  credentials: true,
+};
+
+const cookieOptions = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.5chsr9x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -27,6 +39,24 @@ async function run() {
     const database = client.db('volunteerDB');
     const volunteerCollection = database.collection('volunteerCollection');
     const AppliedCollection = database.collection('AppliedCollection');
+
+    // Auth Related API
+
+    app.post('/jwt', async (req, res) => {
+      const user = req.body;
+      const token = jwt.sign(user, process.env.TOKEN_SECRET, {
+        expiresIn: '1h',
+      });
+      res.cookie('token', token, cookieOptions).send({ success: true });
+    });
+
+    app.post('/signOut', async (req, res) => {
+      res
+        .clearCookie('token', { ...cookieOptions, maxAge: 0 })
+        .send({ success: true });
+    });
+
+    // Services Related API
 
     app.get('/volunteers-upcoming', async (req, res) => {
       const result = await volunteerCollection
