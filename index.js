@@ -29,7 +29,11 @@ async function run() {
     const AppliedCollection = database.collection('AppliedCollection');
 
     app.get('/volunteers-upcoming', async (req, res) => {
-      const result = await volunteerCollection.find().limit(6).toArray();
+      const result = await volunteerCollection
+        .find()
+        .sort({ deadline: 1 })
+        .limit(6)
+        .toArray();
       res.send(result);
     });
 
