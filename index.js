@@ -75,8 +75,9 @@ async function run() {
     // Services Related API
 
     app.get('/volunteers-upcoming', async (req, res) => {
+      const filter = { deadline: { $gt: new Date().toISOString() } };
       const result = await volunteerCollection
-        .find()
+        .find(filter)
         .sort({ deadline: 1 })
         .limit(6)
         .toArray();
@@ -135,6 +136,10 @@ async function run() {
 
     app.post('/applied-as-a-volunteer', verifyToken, async (req, res) => {
       const applicationData = req.body;
+
+      if (applicationData.volunteers_needed <= 1) {
+        return res.send({ message: 'Not allowed' });
+      }
 
       if (applicationData.organizer_email === applicationData.applicant_email) {
         return res.send({ message: 'Not allowed' });
