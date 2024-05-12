@@ -84,8 +84,20 @@ async function run() {
     });
 
     app.get('/volunteers', verifyToken, async (req, res) => {
-      const result = await volunteerCollection.find().toArray();
+      const page = +req.query.page;
+      const limit = +req.query.limit;
+
+      const result = await volunteerCollection
+        .find()
+        .skip(page * limit)
+        .limit(limit)
+        .toArray();
       res.send(result);
+    });
+
+    app.get('/number-of-post', verifyToken, async (req, res) => {
+      const result = await volunteerCollection.estimatedDocumentCount();
+      res.send({ totalPost: result });
     });
 
     app.get('/volunteers/:id', verifyToken, async (req, res) => {
