@@ -83,6 +83,11 @@ async function run() {
       res.send(result);
     });
 
+    app.get('/volunteers', verifyToken, async (req, res) => {
+      const result = await volunteerCollection.find().toArray();
+      res.send(result);
+    });
+
     app.get('/volunteers/:id', verifyToken, async (req, res) => {
       const id = req.params.id;
       const cursor = { _id: new ObjectId(id) };
@@ -118,6 +123,10 @@ async function run() {
 
     app.post('/applied-as-a-volunteer', verifyToken, async (req, res) => {
       const applicationData = req.body;
+
+      if (applicationData.organizer_email === applicationData.applicant_email) {
+        return res.send({ message: 'Not allowed' });
+      }
 
       const query = {
         applicant_email: applicationData.applicant_email,
@@ -198,6 +207,17 @@ async function run() {
       }
 
       const result = await AppliedCollection.deleteOne(query);
+
+      const updatedDoc = {
+        $inc: { volunteers_needed: 1 },
+      };
+      const cursor = { _id: new ObjectId(findThePost.postId) };
+
+      const updateVolunteersNeeded = await volunteerCollection.updateOne(
+        cursor,
+        updatedDoc
+      );
+
       res.send(result);
     });
 
