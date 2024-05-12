@@ -87,9 +87,14 @@ async function run() {
     app.get('/volunteers', verifyToken, async (req, res) => {
       const page = +req.query.page;
       const limit = +req.query.limit;
+      const searchQuery = req.query.searchQuery;
+
+      const query = {
+        title: { $regex: searchQuery, $options: 'i' },
+      };
 
       const result = await volunteerCollection
-        .find()
+        .find(query)
         .skip(page * limit)
         .limit(limit)
         .toArray();
@@ -97,7 +102,11 @@ async function run() {
     });
 
     app.get('/number-of-post', verifyToken, async (req, res) => {
-      const result = await volunteerCollection.estimatedDocumentCount();
+      const searchQuery = req.query.searchQuery;
+      const query = {
+        title: { $regex: searchQuery, $options: 'i' },
+      };
+      const result = await volunteerCollection.countDocuments(query);
       res.send({ totalPost: result });
     });
 
