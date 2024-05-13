@@ -8,7 +8,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const corsOptions = {
-  origin: ['https://voluntree-go.netlify.app'],
+  origin: ['https://voluntree-go.netlify.app', 'http://localhost:5173'],
   credentials: true,
 };
 
@@ -75,7 +75,9 @@ async function run() {
     // Services Related API
 
     app.get('/volunteers-upcoming', async (req, res) => {
-      const filter = { deadline: { $gt: new Date().toISOString() } };
+      const filter = {
+        deadline: { $gt: new Date(Date.now() - 86400000).toISOString() },
+      };
       const result = await volunteerCollection
         .find(filter)
         .sort({ deadline: 1 })
