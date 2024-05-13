@@ -84,7 +84,7 @@ async function run() {
       res.send(result);
     });
 
-    app.get('/volunteers', verifyToken, async (req, res) => {
+    app.get('/volunteers', async (req, res) => {
       const page = +req.query.page;
       const limit = +req.query.limit;
       const searchQuery = req.query.searchQuery;
@@ -101,7 +101,7 @@ async function run() {
       res.send(result);
     });
 
-    app.get('/number-of-post', verifyToken, async (req, res) => {
+    app.get('/number-of-post', async (req, res) => {
       const searchQuery = req.query.searchQuery;
       const query = {
         title: { $regex: searchQuery, $options: 'i' },
