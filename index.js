@@ -55,6 +55,7 @@ async function run() {
     const database = client.db('volunteerDB');
     const volunteerCollection = database.collection('volunteerCollection');
     const AppliedCollection = database.collection('AppliedCollection');
+    const testimonialCollection = database.collection('testimonialCollection');
 
     // Auth Related API
 
@@ -110,6 +111,11 @@ async function run() {
       };
       const result = await volunteerCollection.countDocuments(query);
       res.send({ totalPost: result });
+    });
+
+    app.get('/testimonials', async (req, res) => {
+      const result = await testimonialCollection.find().toArray();
+      res.send(result);
     });
 
     app.get('/volunteers/:id', verifyToken, async (req, res) => {
