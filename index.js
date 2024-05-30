@@ -36,6 +36,8 @@ const verifyToken = (req, res, next) => {
   });
 };
 
+console.log(process.env.DB_USER, process.env.DB_PASS);
+
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.5chsr9x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 const client = new MongoClient(uri, {
@@ -135,6 +137,20 @@ async function run() {
       res.send(result);
     });
 
+    app.get(
+      '/application-for-my-posts/:email',
+      verifyToken,
+      async (req, res) => {
+        if (req.user.email !== req.params.email) {
+          return res.status(403).send({ message: 'Forbidden access' });
+        }
+        const userEmail = req.params.email;
+        const cursor = { organizer_email: userEmail };
+        const result = await AppliedCollection.find(cursor).toArray();
+        res.send(result);
+      }
+    );
+
     app.get('/my-applied-posts/:email', verifyToken, async (req, res) => {
       if (req.user.email !== req.params.email) {
         return res.status(403).send({ message: 'Forbidden access' });
@@ -215,6 +231,26 @@ async function run() {
       );
       res.send(result);
     });
+
+    app.patch(
+      '/application-for-my-posts/:id',
+      verifyToken,
+      async (req, res) => {
+        const id = req.params.id;
+        const updatedInfo = req.body;
+
+        const filter = { _id: new ObjectId(id) };
+
+        const updatedDoc = {
+          $set: {
+            status: updatedInfo.status,
+          },
+        };
+
+        const result = await AppliedCollection.updateOne(filter, updatedDoc);
+        res.send(result);
+      }
+    );
 
     app.delete('/volunteers/:id', verifyToken, async (req, res) => {
       const id = req.params.id;

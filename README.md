@@ -1,4 +1,4 @@
-# Voluntree Server
+# Voluntree Client
 
 ### Assignment_ID: assignment_category_0010
 
@@ -10,15 +10,6 @@
 
 [Server Site Repository Link](https://github.com/Porgramming-Hero-web-course/b9a11-server-side-abdul-muhaimin-toha)
 
-#### User Authentication and Registration:
-
-- Users can register using their email or social media accounts.
-- During registration, a random password is generated for enhanced security.
-
-#### JWT Protection:
-
-- The entire website is protected by JWT (JSON Web Tokens) authentication, ensuring secure access to protected routes and resources.
-
 #### Post Management:
 
 - Users can create, edit, and delete posts if they are looking for volunteers.
@@ -27,7 +18,17 @@
 #### Volunteer Applications:
 
 - Users can apply to posts created by others if they want to work as volunteers.
+- The Employee can see people who requested on their post, and accept or reject the request, and the data will be updated in every users states.
 - Users can view posts they've applied to and manage their applications, including deleting or canceling them.
+
+#### User Authentication and Registration:
+
+- Users can register using their email or social media accounts.
+- During registration, a random password is generated for enhanced security.
+
+#### JWT Protection:
+
+- The entire website is protected by JWT (JSON Web Tokens) authentication, ensuring secure access to protected routes and resources.
 
 #### Post Viewing and Searching:
 
