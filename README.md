@@ -1,14 +1,12 @@
-# Voluntree Client
+# Voluntree Server
 
-### Assignment_ID: assignment_category_0010
-
-### Milestone: 11, Assignment: 11 (Voluntree). Project based assignment for Progmming Hero course.
+Voluntree is a secure, responsive platform connecting volunteers with opportunities through user-friendly post management and search functionalities. Powered by Node.js, Express.js, MongoDB, and React, it ensures robust authentication and a seamless experience across devices.
 
 [Live Website Link](https://voluntree-go.netlify.app/)
 
-[Client Site Repository Link](https://github.com/Porgramming-Hero-web-course/b9a11-client-side-abdul-muhaimin-toha)
+[Client Site Repository Link](https://github.com/abdul-muhaimin-toha/Voluntree-Client)
 
-[Server Site Repository Link](https://github.com/Porgramming-Hero-web-course/b9a11-server-side-abdul-muhaimin-toha)
+[Server Site Repository Link](https://github.com/abdul-muhaimin-toha/Voluntree-Server)
 
 #### Post Management:
 
