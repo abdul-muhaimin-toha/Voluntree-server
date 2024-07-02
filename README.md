@@ -59,15 +59,4 @@ Voluntree leverages a powerful technology stack to deliver its features:
 
 ## NPM Packages used in this project
 
-- Tanstack Query
-- React Datepicker
-- React Tabs
-- Locomotive Scroll
-- Axios
-- React Helmet Async
-- Json Web Token
-- Firebase
-- React Hook Form
-- React Hot Toast
-- Sweet Alert
-- Swiper slider
+`Tanstack Query`, `React Datepicker`, `React Tabs`, `Locomotive Scroll`, `Axios`, `React Helmet Async`, `Json Web Token`, `Firebase`, `React Hook Form`, `React Hot Toast`, `Sweet Alert`, `Swiper slider`
