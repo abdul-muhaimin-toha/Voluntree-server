@@ -1,12 +1,23 @@
 # Voluntree Server
 
-Voluntree is a secure, responsive platform connecting volunteers with opportunities through user-friendly post management and search functionalities. Powered by Node.js, Express.js, MongoDB, and React, it ensures robust authentication and a seamless experience across devices.
+Voluntree is a secure, responsive platform connecting volunteers with opportunities through intuitive post management and search functionalities.
 
-[Live Website Link](https://voluntree-go.netlify.app/)
+## Links
 
-[Client Site Repository Link](https://github.com/abdul-muhaimin-toha/Voluntree-Client)
+- [Live Website]([https://red-wave.netlify.app/](https://voluntree-go.netlify.app/))
+- [Client Site Repository](https://github.com/abdul-muhaimin-toha/Voluntree-Client)
+- [Server Site Repository](https://github.com/abdul-muhaimin-toha/Voluntree-Server)
 
-[Server Site Repository Link](https://github.com/abdul-muhaimin-toha/Voluntree-Server)
+## Run Locally
+
+To run Red Wave locally, follow these steps:
+
+```sh
+npm install
+npm run dev
+```
+
+## Key Features
 
 #### Post Management:
 
@@ -40,6 +51,8 @@ Voluntree is a secure, responsive platform connecting volunteers with opportunit
 
 #### Technology Stack:
 
+Voluntree leverages a powerful technology stack to deliver its features:
+
 - Backend: Node.js, Express.js, with jwt for handling server-side logic and API endpoints.
 - Database: MongoDB for storing user data and post information.
 - Frontend: React for building the user interface and providing a seamless browsing experience.
@@ -47,25 +60,14 @@ Voluntree is a secure, responsive platform connecting volunteers with opportunit
 ## NPM Packages used in this project
 
 - Tanstack Query
-
 - React Datepicker
-
 - React Tabs
-
 - Locomotive Scroll
-
 - Axios
-
 - React Helmet Async
-
 - Json Web Token
-
 - Firebase
-
 - React Hook Form
-
 - React Hot Toast
-
 - Sweet Alert
-
 - Swiper slider
